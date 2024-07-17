@@ -74,12 +74,6 @@ class PickupId {
         message: json["message"] ?? "error",
         data: List<IDDatum>.from(json["data"].map((e) => IDDatum.fromJson(e))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
 }
 
 class IDDatum {
@@ -125,43 +119,25 @@ class IDDatum {
         specialinstructions: json["specialinstructions"] ?? "None",
         status: json["status"] ?? "error",
       );
-
-  Map<String, dynamic> toJson() => {
-        "pickupNo": pickupNo,
-        "customerid": customerid,
-        "pickupdate": pickupdate,
-        "contactperson": contactperson,
-        "details": List<dynamic>.from(details.map((e) => e.toJson())),
-        "servicecenterid": servicecenterid,
-        "fieldexecutiveid": fieldexecutiveid,
-        "vehicletype": vehicletype,
-        "specialinstructions": specialinstructions ?? "N/A",
-        "status": status ?? "N/A",
-      };
 }
 
 class Detail {
   String type;
-  Info info;
-  Loc location;
+  Info? info;
+  Loc? location;
 
   Detail({
     required this.type,
-    required this.info,
-    required this.location,
+    this.info,
+    this.location,
   });
 
   factory Detail.fromJson(Map<String, dynamic> json) => Detail(
         type: json["type"] ?? "error",
-        info: Info.fromJson(json["info"]),
-        location: Loc.fromJson(json["location"]),
+        info: json["info"] != null ? Info.fromJson(json["info"]) : null,
+        location:
+            json["location"] != null ? Loc.fromJson(json["location"]) : null,
       );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "info": info.toJson(),
-        "location": location.toJson(),
-      };
 }
 
 class Info {
@@ -191,35 +167,35 @@ class Info {
 class Loc {
   int? tel;
   String? area;
-  String city;
-  String state;
-  String country;
+  String? city;
+  String? state;
+  String? country;
   String? pincode;
-  String address1;
+  String? address1;
   String? address2;
   int? mobileno;
 
   Loc({
-    required this.tel,
-    required this.area,
-    required this.city,
-    required this.state,
-    required this.country,
-    required this.pincode,
-    required this.address1,
-    required this.address2,
-    required this.mobileno,
+    this.tel,
+    this.area,
+    this.city,
+    this.state,
+    this.country,
+    this.pincode,
+    this.address1,
+    this.address2,
+    this.mobileno,
   });
 
   factory Loc.fromJson(Map<String, dynamic> json) => Loc(
         tel: json["tel"] ?? 0,
         area: json["area"] ?? "N/A",
-        city: json["city"],
-        state: json["state"],
-        country: json["country"],
-        address1: json["address1"],
+        city: json["city"] ?? "N/A",
+        state: json["state"] ?? "N/A",
+        country: json["country"] ?? "N/A",
+        address1: json["address1"] ?? "N/A",
         address2: json["address2"] ?? "India",
-        mobileno: json["mobileno"],
+        mobileno: json["mobileno"] ?? 0,
         pincode: json["pincode"] ?? "N/A",
       );
 

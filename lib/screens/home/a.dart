@@ -136,8 +136,8 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
           for (int i = 0; i < details.data.length; i++) {
             ids.add(details.data[i].id);
           }
-          //debugPrint(ids.toString());
-          //debugPrint("Pickup ID Call Start");
+          debugPrint(ids.toString());
+          debugPrint("Pickup ID Call Start");
           await Future.wait(ids.map((id) async {
             debugPrint("$id Call Start");
             var count = 1;
@@ -149,13 +149,17 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
             debugPrint("$id Call Finish");
             PickupId pdetail = PickupId.fromJson(resp.data);
             debugPrint("$count $id call");
+            debugPrint(
+                "Address 1: ${pdetail.data.first.details.first.location?.address1}");
+            debugPrint(
+                "Address 2: ${pdetail.data.first.details.first.location?.address2}");
             pdetail.data.first.latlng = await addrToLatLng(
-                "${pdetail.data.first.details.last.location.address1} ${pdetail.data.first.details.last.location.address2}");
+                "${pdetail.data.first.details.first.location?.address1} ${pdetail.data.first.details.first.location?.address2}");
             count++;
-            //debugPrint(pdetail.data.first.latlng.toString());
+            debugPrint(pdetail.data.first.latlng.toString());
             pickups.add(pdetail);
             addrs.add(
-                "${pdetail.data.first.details.last.location.address1} ${pdetail.data.first.details.last.location.address2}");
+                "${pdetail.data.first.details.first.location?.address1} ${pdetail.data.first.details.first.location?.address2}");
           }));
           debugPrint(ids.toString());
           debugPrint(addrs.toString());
@@ -584,27 +588,32 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                         return MapTile(
                                           onTap: () => _showDialog(),
                                           person: ptiles[index]
-                                              .data
-                                              .first
-                                              .contactperson,
+                                                  .data
+                                                  .first
+                                                  .details
+                                                  .first
+                                                  .info
+                                                  ?.name ??
+                                              "N/A",
                                           address:
-                                              "${ptiles[index].data.first.details.last.location.address1} ${ptiles[index].data.first.details.last.location.address2}",
+                                              "${ptiles[index].data.first.details.first.location?.address1} ${ptiles[index].data.first.details.first.location?.address2}",
                                           area: ptiles[index]
                                                   .data
                                                   .first
                                                   .details
-                                                  .last
+                                                  .first
                                                   .location
-                                                  .area ??
+                                                  ?.area ??
                                               "N/A",
                                           mobileno: ptiles[index]
-                                              .data
-                                              .first
-                                              .details
-                                              .last
-                                              .location
-                                              .mobileno
-                                              .toString(),
+                                                  .data
+                                                  .first
+                                                  .details
+                                                  .first
+                                                  .location
+                                                  ?.mobileno
+                                                  .toString() ??
+                                              "N/A",
                                           tnum:
                                               ptiles[index].data.first.pickupNo,
                                           instructions: ptiles[index]

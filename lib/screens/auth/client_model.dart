@@ -34,7 +34,7 @@ class Datum {
   int id;
   String username;
   String logintype;
-  String metainfo;
+  dynamic metainfo;
   int groupid;
   String groupname;
   int roleid;

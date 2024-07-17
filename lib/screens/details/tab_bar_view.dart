@@ -17,7 +17,8 @@ Dio dio = Dio(
 );
 
 class PickupTBView extends StatefulWidget {
-  const PickupTBView({super.key, this.history = false, this.neww = false, required this.show});
+  const PickupTBView(
+      {super.key, this.history = false, this.neww = false, required this.show});
 
   final bool history;
   final bool neww;
@@ -28,7 +29,6 @@ class PickupTBView extends StatefulWidget {
 }
 
 class _PickupTBViewState extends State<PickupTBView> {
-
   final storage = const FlutterSecureStorage();
   List<PickupId> ptiles = [];
   bool isLoading = false;
@@ -44,10 +44,14 @@ class _PickupTBViewState extends State<PickupTBView> {
     setState(() {
       isLoading = true;
     });
-    
+
     if (await storage.read(key: 'access_token') != '') {
       try {
-        final res = await dio.get('/pickups/list', options: Options(headers: {'Authorization' : "Bearer ${await storage.read(key: 'access_token')}"}));
+        final res = await dio.get('/pickups/list',
+            options: Options(headers: {
+              'Authorization':
+                  "Bearer ${await storage.read(key: 'access_token')}"
+            }));
         PickupAll details = PickupAll.fromJson(res.data);
         if (details.data.isNotEmpty) {
           var ids = [];
@@ -58,12 +62,17 @@ class _PickupTBViewState extends State<PickupTBView> {
           }
           await Future.wait(ids.map((id) async {
             final resp = await dio.get('/pickups/$id',
-              options: Options(headers: {'Authorization': "Bearer ${await storage.read(key: 'access_token')}"}));
-              PickupId pdetail = PickupId.fromJson(resp.data);
-              pdetail.data.first.latlng = await addrToLatLng("${pdetail.data.first.details.last.location.address1} ${pdetail.data.first.details.last.location.address2}");
-              //debugPrint(pdetail.data.first.latlng.toString());
-              pickups.add(pdetail);
-              addrs.add("${pdetail.data.first.details.last.location.address1} ${pdetail.data.first.details.last.location.address2}");
+                options: Options(headers: {
+                  'Authorization':
+                      "Bearer ${await storage.read(key: 'access_token')}"
+                }));
+            PickupId pdetail = PickupId.fromJson(resp.data);
+            pdetail.data.first.latlng = await addrToLatLng(
+                "${pdetail.data.first.details.first.location?.address1} ${pdetail.data.first.details.first.location?.address2}");
+            //debugPrint(pdetail.data.first.latlng.toString());
+            pickups.add(pdetail);
+            addrs.add(
+                "${pdetail.data.first.details.first.location?.address1} ${pdetail.data.first.details.first.location?.address2}");
           }));
           List<List<double>> latlng = [];
           await Future.wait(addrs.map((addr) async {
@@ -75,25 +84,36 @@ class _PickupTBViewState extends State<PickupTBView> {
           });
         }
       } on DioException catch (e) {
-        if(e.response?.statusCode == 401) {
+        if (e.response?.statusCode == 401) {
           try {
-            final rsp = await dio.post('/refreshtoken', data: {"refreshToken": await storage.read(key: "refresh_token")}, options: Options(headers: {'Authorization': "Bearer ${await storage.read(key: 'access_token')}"}));
+            final rsp = await dio.post('/refreshtoken',
+                data: {
+                  "refreshToken": await storage.read(key: "refresh_token")
+                },
+                options: Options(headers: {
+                  'Authorization':
+                      "Bearer ${await storage.read(key: 'access_token')}"
+                }));
             Token token = Token.fromJson(rsp.data);
             debugPrint('Call completes');
-          
-            if(token.success) {
-              await storage.write(key: 'access_token', value: token.accesstoken.replaceAll('Bearer', '').trim());
-              await storage.write(key: 'refresh_token', value: token.refreshtoken);
+
+            if (token.success) {
+              await storage.write(
+                  key: 'access_token',
+                  value: token.accesstoken.replaceAll('Bearer', '').trim());
+              await storage.write(
+                  key: 'refresh_token', value: token.refreshtoken);
             }
             fetchPickupList();
-          } on DioException catch(e) {
-            if(e.response?.statusCode == 401) {
+          } on DioException catch (e) {
+            if (e.response?.statusCode == 401) {
               setState(() {
                 isLoading = false;
               });
               await storage.write(key: 'keepLoggedIn', value: 'false');
               if (!mounted) return;
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const LogIn()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (ctx) => const LogIn()));
             }
           }
         }
@@ -103,12 +123,13 @@ class _PickupTBViewState extends State<PickupTBView> {
 
   Future<void> _showDialog(bool isActive) async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return PickupDialog(isActive: isActive,);
-      }
-    );
+        context: context,
+        barrierDismissible: true, // user must tap button!
+        builder: (BuildContext context) {
+          return PickupDialog(
+            isActive: isActive,
+          );
+        });
   }
 
   @override
@@ -120,49 +141,86 @@ class _PickupTBViewState extends State<PickupTBView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    lightColorScheme.surface,
-                    lightColorScheme.primaryContainer
-                  ],
-                  stops: const [0, 1],
-                  begin: const AlignmentDirectional(0, -1),
-                  end: const AlignmentDirectional(0, 1),
-                ),
-              ),
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
-              child: Column(
-                children: [
-                  const AWBSearch(page: 'pickup/delivery',),
-                  const SizedBox(height: 16,),
-                  (isLoading) ? Center(
-                    child: SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.05, width: MediaQuery.sizeOf(context).width * 0.1, child: CircularProgressIndicator(strokeWidth: 4,value: null, color: lightColorScheme.inverseSurface,)),
-                  ) :
-                  Expanded(
-                    child: ScrollablePositionedList.builder(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [lightColorScheme.surface, lightColorScheme.primaryContainer],
+          stops: const [0, 1],
+          begin: const AlignmentDirectional(0, -1),
+          end: const AlignmentDirectional(0, 1),
+        ),
+      ),
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      child: Column(
+        children: [
+          const AWBSearch(
+            page: 'pickup/delivery',
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          (isLoading)
+              ? Center(
+                  child: SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.05,
+                      width: MediaQuery.sizeOf(context).width * 0.1,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4,
+                        value: null,
+                        color: lightColorScheme.inverseSurface,
+                      )),
+                )
+              : Expanded(
+                  child: ScrollablePositionedList.builder(
                       itemCount: ptiles.length,
                       itemScrollController: pickupController,
                       itemBuilder: (context, int index) {
-                        return MapTile(isHistory: widget.history, isNew: widget.neww, onTap: () => _showDialog(widget.show),
-                          person: ptiles[index].data.first.contactperson,
-                          address: "${ptiles[index].data.first.details.last.location.address1} ${ptiles[index].data.first.details.last.location.address2}",
-                          area: ptiles[index].data.first.details.last.location.area ?? "N/A",
-                          mobileno: ptiles[index].data.first.details.last.location.mobileno.toString(),
+                        return MapTile(
+                          isHistory: widget.history,
+                          isNew: widget.neww,
+                          onTap: () => _showDialog(widget.show),
+                          person: ptiles[index]
+                                  .data
+                                  .first
+                                  .details
+                                  .first
+                                  .info
+                                  ?.name ??
+                              "N/A",
+                          address:
+                              "${ptiles[index].data.first.details.first.location?.address1} ${ptiles[index].data.first.details.first.location?.address2}",
+                          area: ptiles[index]
+                                  .data
+                                  .first
+                                  .details
+                                  .first
+                                  .location
+                                  ?.area ??
+                              "N/A",
+                          mobileno: ptiles[index]
+                                  .data
+                                  .first
+                                  .details
+                                  .first
+                                  .location
+                                  ?.mobileno
+                                  .toString() ??
+                              "N/A",
                           tnum: ptiles[index].data.first.pickupNo,
-                          instructions: ptiles[index].data.first.specialinstructions ?? "N/A",
-                          latlng: ptiles[index].data.first.latlng ?? const [1.0, 2.0],
-                          datetime: "${DateTime.parse(ptiles[index].data.first.pickupdate).day}/${DateTime.parse(ptiles[index].data.first.pickupdate).month}/${DateTime.parse(ptiles[index].data.first.pickupdate).year}, ${DateTime.parse(ptiles[index].data.first.pickupdate).hour}:${DateTime.parse(ptiles[index].data.first.pickupdate).minute}",
+                          instructions:
+                              ptiles[index].data.first.specialinstructions ??
+                                  "N/A",
+                          latlng: ptiles[index].data.first.latlng ??
+                              const [1.0, 2.0],
+                          datetime:
+                              "${DateTime.parse(ptiles[index].data.first.pickupdate).day}/${DateTime.parse(ptiles[index].data.first.pickupdate).month}/${DateTime.parse(ptiles[index].data.first.pickupdate).year}, ${DateTime.parse(ptiles[index].data.first.pickupdate).hour}:${DateTime.parse(ptiles[index].data.first.pickupdate).minute}",
                         );
-                      }
-                    ),
-                  ),
-                ],
-              ),
-            );
+                      }),
+                ),
+        ],
+      ),
+    );
   }
 }
 
@@ -174,34 +232,34 @@ class DeliveryTBView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    lightColorScheme.surface,
-                    lightColorScheme.primaryContainer
-                  ],
-                  stops: const [0, 1],
-                  begin: const AlignmentDirectional(0, -1),
-                  end: const AlignmentDirectional(0, 1),
-                ),
-              ),
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
-              child: Column(
-                children: [
-                  const AWBSearch(page: 'pickup/delivery',),
-                  const SizedBox(height: 16,),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 16,
-                      itemBuilder: (context, int index) {
-                        return tile;
-                      }
-                    ),
-                  ),
-                ],
-              ),
-            );
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [lightColorScheme.surface, lightColorScheme.primaryContainer],
+          stops: const [0, 1],
+          begin: const AlignmentDirectional(0, -1),
+          end: const AlignmentDirectional(0, 1),
+        ),
+      ),
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      child: Column(
+        children: [
+          const AWBSearch(
+            page: 'pickup/delivery',
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: 16,
+                itemBuilder: (context, int index) {
+                  return tile;
+                }),
+          ),
+        ],
+      ),
+    );
   }
 }

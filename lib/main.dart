@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:xprapp/screens/auth/forgot_pass.dart';
 import 'package:xprapp/screens/auth/log_in.dart';
+import 'package:xprapp/screens/awb_entry/awb_entry.dart';
 import 'package:xprapp/screens/cloud/cloud_webview.dart';
 import 'package:xprapp/screens/details/delivery.dart';
 import 'package:xprapp/screens/details/pickup.dart';
@@ -90,6 +91,7 @@ Future main() async {
         '/profile': (context) => const Profile(),
         '/feedback': (context) => const FeedBack(),
         '/custTrack': (context) => const Tracking(),
+        '/awb': (context) => const AWBEntry(),
         '/custAWB': (context) => const AWBWebView(),
         '/invoice': (context) => const Invoice(),
         '/reports': (context) => const Reports(),
