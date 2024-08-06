@@ -15,5 +15,5 @@ Steps to run the app:
 
 Steps to build an apk/appbundle:
 - Follow steps 1-3 on https://firebase.google.com/docs/flutter/setup?platform=ios
-- Follow the steps mentioned in the "Flutter App Key Signing Process" google document
+- Follow the steps mentioned in https://docs.google.com/document/d/1XUiBTGhVdFJoE1mM0h1CiWndcBooOML6G9xOnNZrbl0/edit?usp=sharing
 - Run the command `flutter build apk / flutter build appbundle`
