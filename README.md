@@ -1,16 +1,19 @@
-# xprapp
+# Xpresion Mobile App
 
-A new Flutter project.
+Minimum specs to run Flutter:
+    Requirement	                    Minimum	            Recommended
+    x86_64 CPU Cores	            4	                8
+    Memory in GB	                8               	16
+    Display resolution in pixels	WXGA (1366 x 768)	FHD (1920 x 1080)
+    Free disk space in GB	        4.0	                52.0
 
-## Getting Started
+Steps to run the app:
+- Run the command flutter doctor to make sure that flutter is correctly installed and stable
+- Use command prompt to navigate to the project folder
+- Connect a mobile device to the pc with usb debugging turned on for the mobile device
+- Run the command `flutter run`
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Steps to build an apk/appbundle:
+- Follow steps 1-3 on https://firebase.google.com/docs/flutter/setup?platform=ios
+- Follow the steps mentioned in the "Flutter App Key Signing Process" google document
+- Run the command `flutter build apk / flutter build appbundle`
