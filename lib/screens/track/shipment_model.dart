@@ -27,17 +27,19 @@ class ShipDatum {
   String transactionstatus;
   String transactiondate;
   String transactiontime;
+  String area;
 
-  ShipDatum({
-    required this.transactionstatus,
-    required this.transactiondate,
-    required this.transactiontime,
-  });
+  ShipDatum(
+      {required this.transactionstatus,
+      required this.transactiondate,
+      required this.transactiontime,
+      required this.area});
 
   factory ShipDatum.fromJson(Map<String, dynamic> json) => ShipDatum(
         transactionstatus: json['transactionstatus'] ?? "error",
         transactiondate: json['transactiondate'] ?? "error",
         transactiontime: json['transactiontime'] ?? "error",
+        area: json['area'] ?? "error",
       );
 
   // Map<String, dynamic> toJson() => {

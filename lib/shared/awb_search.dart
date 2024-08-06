@@ -15,20 +15,19 @@ class AWBSearch extends StatefulWidget {
 }
 
 class _AWBSearchState extends State<AWBSearch> {
-
   final awbController = TextEditingController();
 
   Future<void> scanBarcode() async {
-
     String res;
 
     try {
-      res = await FlutterBarcodeScanner.scanBarcode('#385ca9', 'Cancel', true, ScanMode.QR);
+      res = await FlutterBarcodeScanner.scanBarcode(
+          '#385ca9', 'Cancel', true, ScanMode.QR);
     } on PlatformException {
       res = ' ';
     }
 
-    if(!mounted) return;
+    if (!mounted) return;
 
     setState(() {
       if (res != '-1') {
@@ -37,11 +36,11 @@ class _AWBSearchState extends State<AWBSearch> {
     });
 
     submit(awbController.text);
-
   }
 
   void submit(String text) {
-    Provider.of<SearchModel>(context, listen: false).onSubmit(text, widget.page);
+    Provider.of<SearchModel>(context, listen: false)
+        .onSubmit(text, widget.page);
   }
 
   void reset() {
@@ -54,9 +53,7 @@ class _AWBSearchState extends State<AWBSearch> {
   @override
   void initState() {
     awbController.addListener(() {
-      setState(() {
-        
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -66,7 +63,6 @@ class _AWBSearchState extends State<AWBSearch> {
     awbController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,25 +79,31 @@ class _AWBSearchState extends State<AWBSearch> {
             cursorColor: Theme.of(context).colorScheme.tertiary,
             decoration: InputDecoration(
               labelText: 'AWB No.',
-              
               hintText: 'Enter AWB No.',
-              
               suffixIcon: IconButton(
                 onPressed: () {
                   if (awbController.text.isNotEmpty) {
                     reset();
                   }
                 },
-                icon: (awbController.text.isEmpty) ? const Icon(Icons.search_rounded) : const Icon(Symbols.close_rounded),
+                icon: (awbController.text.isEmpty)
+                    ? const Icon(Icons.search_rounded)
+                    : const Icon(Symbols.close_rounded),
               ),
             ),
+            onChanged: (String s) =>
+                (widget.page == "scan") ? submit(awbController.text) : null,
             onSubmitted: (String s) => submit(awbController.text),
           ),
         ),
-    
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: IconButton(onPressed: scanBarcode, icon: const Icon(Symbols.barcode_scanner), iconSize: 42, color: Theme.of(context).colorScheme.primary,),
+          child: IconButton(
+            onPressed: scanBarcode,
+            icon: const Icon(Symbols.barcode_scanner),
+            iconSize: 42,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         )
       ],
     );

@@ -45,9 +45,11 @@ class SearchModel extends ChangeNotifier {
 
   Shipment _shipment = Shipment(success: true, message: 'N/A', data: [
     ShipDatum(
-        transactionstatus: 'N/A',
-        transactiondate: 'N/A',
-        transactiontime: 'N/A')
+      transactionstatus: 'N/A',
+      transactiondate: 'N/A',
+      transactiontime: 'N/A',
+      area: 'N/A',
+    )
   ]);
 
   Shipment get shipment => _shipment;
@@ -71,6 +73,9 @@ class SearchModel extends ChangeNotifier {
 
   void reset() {
     _query = '';
+    _isTracking = true;
+    _isLoading = false;
+    notifyListeners();
   }
 
   void storeUsername(String uname) async {
@@ -164,11 +169,14 @@ class SearchModel extends ChangeNotifier {
           _isLoading = false;
           _valid = "";
           debugPrint('Call success');
-          shipment.data.first.transactionstatus = Casing.titleCase(
-              shipment.data.first.transactionstatus.replaceAll("_", " "));
-          shipment.data.first.transactiondate =
-              "${DateTime.parse(shipment.data.first.transactiondate).day}/${DateTime.parse(shipment.data.first.transactiondate).month}/${DateTime.parse(shipment.data.first.transactiondate).year}";
+          for (int i = 0; i < shipment.data.length; i++) {
+            shipment.data[i].transactionstatus = Casing.titleCase(
+                shipment.data[i].transactionstatus.replaceAll("_", " "));
+            shipment.data[i].transactiondate =
+                "${DateTime.parse(shipment.data[i].transactiondate).day}/${DateTime.parse(shipment.data[i].transactiondate).month}/${DateTime.parse(shipment.data[i].transactiondate).year}";
+          }
           //debugPrint(shipment.data.first.transactionstatus);
+          debugPrint(shipment.data.first.area);
           _shipment = shipment;
           _isTracking = false;
           notifyListeners();

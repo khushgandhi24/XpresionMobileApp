@@ -1,7 +1,7 @@
 class DeliveryAll {
   bool success;
   String message;
-  List<Datum> data;
+  List<DDatum> data;
 
   DeliveryAll({
     required this.success,
@@ -12,23 +12,25 @@ class DeliveryAll {
   factory DeliveryAll.fromJson(Map<String, dynamic> json) => DeliveryAll(
       success: json["success"] ?? false,
       message: json["message"] ?? "error",
-      data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))));
+      data: List<DDatum>.from(json["data"].map((x) => DDatum.fromJson(x))));
 }
 
-class Datum {
+class DDatum {
   String awbnumber;
   String bookingdate;
   String consigneename;
   Consigneedetails consigneedetails;
+  List<double>? latlng;
 
-  Datum({
+  DDatum({
     required this.awbnumber,
     required this.bookingdate,
     required this.consigneename,
     required this.consigneedetails,
+    this.latlng = const [19.0, 27.0],
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DDatum.fromJson(Map<String, dynamic> json) => DDatum(
         awbnumber: json["awbnumber"] ?? "error",
         bookingdate: json["bookingdate"] ?? "error",
         consigneename: json["consigneename"] ?? "error",
@@ -42,7 +44,7 @@ class Consigneedetails {
   String country;
   String address1;
   String address2;
-  String mobileno;
+  int mobileno;
   String telno;
 
   Consigneedetails({
@@ -50,7 +52,7 @@ class Consigneedetails {
     required this.state,
     required this.country,
     required this.address1,
-    required this.address2,
+    this.address2 = "N/A",
     required this.mobileno,
     required this.telno,
   });
@@ -61,8 +63,8 @@ class Consigneedetails {
         state: json["state"] ?? "error",
         country: json["country"] ?? "error",
         address1: json["address1"] ?? "error",
-        address2: json["address2"] ?? "error",
+        address2: json["address2"] ?? " ",
         mobileno: json["mobileno"] ?? "error",
-        telno: json["telno"] ?? "error",
+        telno: json["tel"] ?? "error",
       );
 }

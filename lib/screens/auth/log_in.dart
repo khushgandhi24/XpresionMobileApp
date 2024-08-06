@@ -166,6 +166,25 @@ class _LogInState extends State<LogIn> {
 
           // Navigate to home screen
           Navigator.pushNamed(context, '/mapHome');
+        } else {
+          if (!context.mounted) return;
+          showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  title: const Text('Invalid login credentials'),
+                  content: const Text('Please try again'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: const Text('Close'),
+                    ),
+                  ],
+                  actionsAlignment: MainAxisAlignment.center,
+                );
+              });
         }
       } catch (e) {
         // Show dialog if api call returns an error

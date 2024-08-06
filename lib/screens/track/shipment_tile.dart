@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ShipTile extends StatelessWidget {
-  const ShipTile({super.key, required this.date, required this.status});
+  const ShipTile(
+      {super.key,
+      required this.date,
+      required this.status,
+      required this.area});
 
   final String date;
-  final String status;  
+  final String status;
+  final String area;
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +20,18 @@ class ShipTile extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         size: 28,
       ),
-      title: Text('$status | Shipment Location'),
+      title: Text('$status | $area'),
       titleTextStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSecondaryContainer,
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-         ),
-      subtitle: Text('$date | ID'),
+        color: Theme.of(context).colorScheme.onSecondaryContainer,
+        fontWeight: FontWeight.w500,
+        fontSize: 14,
+      ),
+      subtitle: Text(date),
       subtitleTextStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          fontWeight: FontWeight.normal,
-          fontSize: 14,
-         ),
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+        fontWeight: FontWeight.normal,
+        fontSize: 14,
+      ),
     );
   }
 }

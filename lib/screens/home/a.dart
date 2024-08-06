@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
+import 'package:xprapp/screens/details/delivery_model.dart';
 import 'package:xprapp/screens/home/map_tile.dart';
 import 'package:xprapp/services/awb_search_model.dart';
 import 'package:xprapp/shared/pickup_dialog.dart';
@@ -84,6 +85,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
   final mapController = MapController();
 
   bool isLoading = false;
+  bool isdelLoading = false;
 
   late final AnimationController _animController;
   late final Animation<double> _rotationAnim;
@@ -95,6 +97,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
 
   Map<dynamic, List<double>> markerCoords = {};
   List<PickupId> ptiles = [];
+  List<DDatum> dtiles = [];
   ItemScrollController listController = ItemScrollController();
 
   Future<List<double>> addrToLatLng(String addr) async {
@@ -109,7 +112,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
       return output;
     } on NoResultFoundException catch (e) {
       debugPrint(e.toString());
-      return output;
+      return [42.191586, -112.250801];
     }
   }
 
@@ -257,7 +260,112 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
     }
   }
 
+  Map<int, List<double>> deliveryCoords = {};
+
   // bool isMin = true;
+  Future<void> fetchDeliveryList() async {
+    // if (!mounted) return;
+    setState(() {
+      isdelLoading = true;
+    });
+    if (await storage.read(key: 'access_token') != '') {
+      debugPrint("Delivery Call Start");
+      try {
+        final res = await dio.get('/drs/awb/details',
+            options: Options(headers: {
+              'Authorization':
+                  'Bearer ${await storage.read(key: 'access_token')}'
+            }));
+        debugPrint("Delivery Call Finish");
+        DeliveryAll details = DeliveryAll.fromJson(res.data);
+        if (details.data.isNotEmpty) {
+          List<int> ids = [];
+          List<List<double>> coords = [];
+          for (int x = 0; x < details.data.length; x++) {
+            debugPrint("Addr to LatLng");
+            ids.add(x);
+            details.data[x].latlng = await addrToLatLng(
+                "${details.data[x].consigneedetails.address1} ${details.data[x].consigneedetails.address2}");
+            coords.add(details.data[x].latlng ?? [42.191586, -112.250801]);
+          }
+          for (int i = 0; i < details.data.length; i++) {
+            debugPrint("Adding data to dtiles");
+            dtiles.add(details.data[i]);
+          }
+          final mapper = Map.fromIterables(ids, coords);
+          debugPrint("Returning!");
+          setState(() {
+            isdelLoading = false;
+            deliveryCoords = mapper;
+          });
+        }
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          debugPrint(await storage.read(key: 'access_token'));
+          debugPrint(await storage.read(key: 'refresh_token'));
+          debugPrint('Refresh Token Call Starts');
+          try {
+            final rsp = await dio.post('/refreshtoken',
+                data: {
+                  "refreshToken": await storage.read(key: "refresh_token")
+                },
+                options: Options(headers: {
+                  'Authorization':
+                      "Bearer ${await storage.read(key: 'access_token')}"
+                }));
+            Token token = Token.fromJson(rsp.data);
+            debugPrint('Refresh Token Call completes');
+
+            if (token.success) {
+              await storage.write(
+                  key: 'access_token',
+                  value: token.accesstoken.replaceAll('Bearer', '').trim());
+              await storage.write(
+                  key: 'refresh_token', value: token.refreshtoken);
+              //debugPrint(await storage.read(key: 'access_token'));
+            }
+            fetchDeliveryList();
+          } on DioException catch (e) {
+            if (e.response?.statusCode == 401) {
+              setState(() {
+                isLoading = false;
+              });
+              debugPrint('LogOut');
+              await storage.write(key: 'keepLoggedIn', value: 'false');
+              if (!mounted) return;
+              return showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Session Timed Out!',
+                        textAlign: TextAlign.center,
+                      ),
+                      content: SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.05,
+                        width: MediaQuery.sizeOf(context).width * 0.2,
+                        child: const Text(
+                          'Please log in again!',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: const Text('Retry Login'))
+                      ],
+                      actionsAlignment: MainAxisAlignment.center,
+                    );
+                  });
+            }
+          }
+        }
+      }
+    }
+  }
 
   void selectChip(bool selected, int index) {
     setState(() {
@@ -320,6 +428,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
   @override
   void initState() {
     fetchPickupList();
+    fetchDeliveryList();
     _animController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -355,7 +464,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                     )),
                 title: GestureDetector(
                   onTap: () async {
-                    fetchPickupList();
+                    // fetchPickupList();
                   },
                   child: Image.asset(
                     'assets/images/logos/Xpr_Color.png',
@@ -421,7 +530,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                         onTap: () {
                                           animateOnTap(maxScrollHeight);
                                           listController.scrollTo(
-                                              index: 20,
+                                              index: index,
                                               duration:
                                                   const Duration(seconds: 2));
                                         },
@@ -434,16 +543,21 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                 ),
                               )
                             : MarkerLayer(
-                                markers: [
-                                  Marker(
-                                    point: const LatLng(19.213827, 72.866847),
+                                markers: List.generate(
+                                  deliveryCoords.values.toList().length,
+                                  (index) => Marker(
+                                    point: LatLng(
+                                        deliveryCoords.values.toList()[index]
+                                            [0],
+                                        deliveryCoords.values.toList()[index]
+                                            [1]),
                                     width: 100,
                                     height: 100,
                                     child: GestureDetector(
                                         onTap: () {
                                           animateOnTap(maxScrollHeight);
                                           listController.scrollTo(
-                                              index: 20,
+                                              index: index,
                                               duration:
                                                   const Duration(seconds: 1));
                                         },
@@ -453,7 +567,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                           fill: 1,
                                         )),
                                   ),
-                                ],
+                                ),
                               )
                       ],
                     ),
@@ -581,8 +695,9 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                   width: MediaQuery.sizeOf(context).width * .85,
                                   child: ScrollablePositionedList.builder(
                                     itemScrollController: listController,
-                                    itemCount:
-                                        (_value == 0) ? ptiles.length : 32,
+                                    itemCount: (_value == 0)
+                                        ? ptiles.length
+                                        : dtiles.length,
                                     itemBuilder: (context, index) {
                                       if (_value == 0) {
                                         return MapTile(
@@ -630,7 +745,20 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                       }
                                       return MapTile(
                                         state: false,
-                                        index: index,
+                                        person: dtiles[index].consigneename,
+                                        tnum: dtiles[index].awbnumber,
+                                        mobileno: dtiles[index]
+                                            .consigneedetails
+                                            .mobileno
+                                            .toString(),
+                                        address: dtiles[index]
+                                                .consigneedetails
+                                                .address1 +
+                                            dtiles[index]
+                                                .consigneedetails
+                                                .address2,
+                                        datetime:
+                                            "${DateTime.parse(dtiles[index].bookingdate).day}/${DateTime.parse(dtiles[index].bookingdate).month}/${DateTime.parse(dtiles[index].bookingdate).year}, ${DateTime.parse(dtiles[index].bookingdate).hour}:${DateTime.parse(dtiles[index].bookingdate).minute}",
                                         onTap: () {
                                           Navigator.pushNamed(context, '/pod');
                                         },

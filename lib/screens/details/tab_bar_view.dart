@@ -9,6 +9,7 @@ import 'package:xprapp/screens/home/home_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:xprapp/screens/details/delivery_model.dart';
 
 Dio dio = Dio(
   BaseOptions(
@@ -224,10 +225,133 @@ class _PickupTBViewState extends State<PickupTBView> {
   }
 }
 
-class DeliveryTBView extends StatelessWidget {
-  const DeliveryTBView(this.tile, {super.key});
+class DeliveryTBView extends StatefulWidget {
+  const DeliveryTBView({super.key});
 
-  final Widget tile;
+  @override
+  State<DeliveryTBView> createState() => _DeliveryTBViewState();
+}
+
+class _DeliveryTBViewState extends State<DeliveryTBView> {
+  bool isLoading = false;
+  final storage = const FlutterSecureStorage();
+  int index = 0;
+  List<DDatum> dtiles = [];
+
+  Future<List<double>> addrToLatLng(String addr) async {
+    try {
+      List<Location> locations = await locationFromAddress(addr);
+      debugPrint("Got it!");
+      return [locations.last.latitude, locations.last.longitude];
+    } catch (e) {
+      debugPrint("didn't get it!");
+      return [19.0, 27.0];
+    }
+  }
+
+  Future<void> fetchDeliveryList() async {
+    // if (!mounted) return;
+    setState(() {
+      isLoading = true;
+    });
+    if (await storage.read(key: 'access_token') != '') {
+      debugPrint("Delivery Call Start");
+      try {
+        final res = await dio.get('/drs/awb/details',
+            options: Options(headers: {
+              'Authorization':
+                  'Bearer ${await storage.read(key: 'access_token')}'
+            }));
+        debugPrint("Delivery Call Finish");
+        DeliveryAll details = DeliveryAll.fromJson(res.data);
+        if (details.data.isNotEmpty) {
+          for (int x = 0; x < details.data.length; x++) {
+            debugPrint("Addr to LatLng");
+            details.data[x].latlng = await addrToLatLng(
+                "${details.data[x].consigneedetails.address1} ${details.data[x].consigneedetails.address2}");
+          }
+          for (int i = 0; i < details.data.length; i++) {
+            debugPrint("Adding data to dtiles");
+            dtiles.add(details.data[i]);
+          }
+          debugPrint("Returning!");
+          setState(() {
+            isLoading = false;
+          });
+        }
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 401) {
+          debugPrint(await storage.read(key: 'access_token'));
+          debugPrint(await storage.read(key: 'refresh_token'));
+          debugPrint('Refresh Token Call Starts');
+          try {
+            final rsp = await dio.post('/refreshtoken',
+                data: {
+                  "refreshToken": await storage.read(key: "refresh_token")
+                },
+                options: Options(headers: {
+                  'Authorization':
+                      "Bearer ${await storage.read(key: 'access_token')}"
+                }));
+            Token token = Token.fromJson(rsp.data);
+            debugPrint('Refresh Token Call completes');
+
+            if (token.success) {
+              await storage.write(
+                  key: 'access_token',
+                  value: token.accesstoken.replaceAll('Bearer', '').trim());
+              await storage.write(
+                  key: 'refresh_token', value: token.refreshtoken);
+              //debugPrint(await storage.read(key: 'access_token'));
+            }
+            fetchDeliveryList();
+          } on DioException catch (e) {
+            if (e.response?.statusCode == 401) {
+              setState(() {
+                isLoading = false;
+              });
+              debugPrint('LogOut');
+              await storage.write(key: 'keepLoggedIn', value: 'false');
+              if (!mounted) return;
+              return showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(
+                        'Session Timed Out!',
+                        textAlign: TextAlign.center,
+                      ),
+                      content: SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.05,
+                        width: MediaQuery.sizeOf(context).width * 0.2,
+                        child: const Text(
+                          'Please log in again!',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: const Text('Retry Login'))
+                      ],
+                      actionsAlignment: MainAxisAlignment.center,
+                    );
+                  });
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDeliveryList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,23 +367,49 @@ class DeliveryTBView extends StatelessWidget {
       ),
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height,
-      child: Column(
-        children: [
-          const AWBSearch(
-            page: 'pickup/delivery',
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 16,
-                itemBuilder: (context, int index) {
-                  return tile;
-                }),
-          ),
-        ],
-      ),
+      child: (isLoading)
+          ? Center(
+              child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.1,
+                  width: MediaQuery.sizeOf(context).width * 0.2,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 5,
+                    value: null,
+                    color: lightColorScheme.inverseSurface,
+                  )),
+            )
+          : Column(
+              children: [
+                const AWBSearch(
+                  page: 'pickup/delivery',
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: dtiles.length,
+                      itemBuilder: (context, index) {
+                        return MapTile(
+                          state: false,
+                          person: dtiles[index].consigneename,
+                          tnum: dtiles[index].awbnumber,
+                          mobileno: dtiles[index]
+                              .consigneedetails
+                              .mobileno
+                              .toString(),
+                          address: dtiles[index].consigneedetails.address1 +
+                              dtiles[index].consigneedetails.address2,
+                          datetime:
+                              "${DateTime.parse(dtiles[index].bookingdate).day}/${DateTime.parse(dtiles[index].bookingdate).month}/${DateTime.parse(dtiles[index].bookingdate).year}, ${DateTime.parse(dtiles[index].bookingdate).hour}:${DateTime.parse(dtiles[index].bookingdate).minute}",
+                          onTap: () {
+                            Navigator.pushNamed(context, '/pod');
+                          },
+                        );
+                      }),
+                ),
+              ],
+            ),
     );
   }
 }
