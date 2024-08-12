@@ -489,7 +489,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                   children: [
                     PopScope(
                         canPop: false,
-                        onPopInvoked: (didPop) {
+                        onPopInvokedWithResult: (didPop, result) {
                           if (didPop) {
                             return;
                           }
@@ -665,7 +665,7 @@ class _HomeState extends State<XHome> with TickerProviderStateMixin {
                                                       : lightColorScheme
                                                           .onSurface),
                                               disabledColor: lightColorScheme
-                                                  .surfaceVariant,
+                                                  .surfaceContainerHighest,
                                               onSelected: (bool selected) {
                                                 selectChip(selected, index);
                                               },

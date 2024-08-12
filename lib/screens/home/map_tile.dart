@@ -115,17 +115,17 @@ class MapTile extends StatelessWidget {
                                 });
                           },
                           style: ButtonStyle(
-                            padding: const MaterialStatePropertyAll<
+                            padding: const WidgetStatePropertyAll<
                                 EdgeInsetsGeometry>(EdgeInsets.zero),
-                            backgroundColor: const MaterialStatePropertyAll(
+                            backgroundColor: const WidgetStatePropertyAll(
                                 Colors.transparent),
-                            foregroundColor: MaterialStatePropertyAll(
+                            foregroundColor: WidgetStatePropertyAll(
                                 lightColorScheme.primary),
-                            shape: MaterialStatePropertyAll(LinearBorder.bottom(
+                            shape: WidgetStatePropertyAll(LinearBorder.bottom(
                                 side: BorderSide(
                                     color: lightColorScheme.onSurface,
                                     width: 2))),
-                            elevation: const MaterialStatePropertyAll(0),
+                            elevation: const WidgetStatePropertyAll(0),
                           ),
                           child: const Text(
                             'View Address',
@@ -150,21 +150,21 @@ class MapTile extends StatelessWidget {
                                           });
                                     },
                                     style: ButtonStyle(
-                                      padding: const MaterialStatePropertyAll<
+                                      padding: const WidgetStatePropertyAll<
                                           EdgeInsetsGeometry>(EdgeInsets.zero),
                                       backgroundColor:
-                                          const MaterialStatePropertyAll(
+                                          const WidgetStatePropertyAll(
                                               Colors.transparent),
-                                      foregroundColor: MaterialStatePropertyAll(
+                                      foregroundColor: WidgetStatePropertyAll(
                                           lightColorScheme.primary),
-                                      shape: MaterialStatePropertyAll(
+                                      shape: WidgetStatePropertyAll(
                                           LinearBorder.bottom(
                                               side: BorderSide(
                                                   color: lightColorScheme
                                                       .onSurface,
                                                   width: 2))),
                                       elevation:
-                                          const MaterialStatePropertyAll(0),
+                                          const WidgetStatePropertyAll(0),
                                     ),
                                     child: const Text(
                                       'View Instructions',

@@ -205,6 +205,7 @@ class _PInScanState extends State<PInScan> {
                                       Future.delayed(
                                           const Duration(milliseconds: 1000),
                                           () {
+                                        if (!context.mounted) return;
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
                                           content: (value.result.isNotEmpty

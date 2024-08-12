@@ -66,8 +66,8 @@ class DefaultFirebaseOptions {
     projectId: 'xpresion-2db29',
     databaseURL: 'https://xpresion-2db29.firebaseio.com',
     storageBucket: 'xpresion-2db29.appspot.com',
-    androidClientId:
-        '47698965041-8l7ldteatfaqu2iki14kuvnte5me2dkf.apps.googleusercontent.com',
+    androidClientId: '47698965041-8l7ldteatfaqu2iki14kuvnte5me2dkf.apps.googleusercontent.com',
     iosBundleId: 'com.example.xprapp',
   );
+
 }

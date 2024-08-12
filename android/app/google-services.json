@@ -37,9 +37,96 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:47698965041:android:299e6a2c20857096e55b10",
+        "android_client_info": {
+          "package_name": "com.xpresion.accord"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoj-8sbj0n-8BuzT0IzLfQ2yEGioAQ3m0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47698965041:android:4bd418695b459a2fe55b10",
+        "android_client_info": {
+          "package_name": "com.xpresion.accordglobal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoj-8sbj0n-8BuzT0IzLfQ2yEGioAQ3m0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:47698965041:android:8bbd31c593aa2e5de55b10",
         "android_client_info": {
           "package_name": "com.xpresion.atlantic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoj-8sbj0n-8BuzT0IzLfQ2yEGioAQ3m0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47698965041-89vuoi352csecfp9mroraktgm9bhgeep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47698965041:android:77940ad1c0f48c4ae55b10",
+        "android_client_info": {
+          "package_name": "com.xpresion.bnl"
         }
       },
       "oauth_client": [

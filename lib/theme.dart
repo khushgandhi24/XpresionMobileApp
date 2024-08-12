@@ -18,11 +18,9 @@ const lightColorScheme = ColorScheme(
   errorContainer: Color(0xFFFFDAD6),
   onError: Color(0xFFFFFFFF),
   onErrorContainer: Color(0xFF410002),
-  background: Color(0xFFFEFBFF),
-  onBackground: Color(0xFF001849),
   surface: Color(0xFFFEFBFF),
   onSurface: Color(0xFF001849),
-  surfaceVariant: Color(0xFFE1E2EC),
+  surfaceContainerHighest: Color(0xFFE1E2EC),
   onSurfaceVariant: Color(0xFF44464F),
   outline: Color(0xFF757780),
   onInverseSurface: Color(0xFFEEF0FF),
@@ -52,11 +50,9 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF001849),
-  onBackground: Color(0xFFDBE1FF),
   surface: Color(0xFF001849),
   onSurface: Color(0xFFDBE1FF),
-  surfaceVariant: Color(0xFF44464F),
+  surfaceContainerHighest: Color(0xFF44464F),
   onSurfaceVariant: Color(0xFFC5C6D0),
   outline: Color(0xFF8F9099),
   onInverseSurface: Color(0xFF001849),
@@ -69,11 +65,10 @@ const darkColorScheme = ColorScheme(
 );
 
 ThemeData primaryTheme = ThemeData(
-
   useMaterial3: true,
 
   colorScheme: lightColorScheme,
-  
+
   // Scaffold BG Color
   scaffoldBackgroundColor: lightColorScheme.secondaryContainer,
 
@@ -84,10 +79,7 @@ ThemeData primaryTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
     centerTitle: true,
     toolbarHeight: 76,
-    iconTheme: IconThemeData(
-      size: 36,
-      color: lightColorScheme.primary
-    ),
+    iconTheme: IconThemeData(size: 36, color: lightColorScheme.primary),
   ),
 
   dropdownMenuTheme: DropdownMenuThemeData(
@@ -100,21 +92,18 @@ ThemeData primaryTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     fillColor: lightColorScheme.surface,
     filled: true,
-    labelStyle: TextStyle(
-      color: lightColorScheme.onSurfaceVariant,
-      fontSize: 12
-    ),
+    labelStyle:
+        TextStyle(color: lightColorScheme.onSurfaceVariant, fontSize: 12),
     hintStyle: TextStyle(
       color: lightColorScheme.secondary,
       fontSize: 12,
     ),
-    enabledBorder:  OutlineInputBorder(
-      borderSide: BorderSide(
-        color: lightColorScheme.outline,
-        width: 2,
-      ),
-      borderRadius: BorderRadius.circular(24)
-    ),
+    enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: lightColorScheme.outline,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(24)),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: lightColorScheme.primary,
@@ -138,14 +127,12 @@ ThemeData primaryTheme = ThemeData(
     ),
     contentPadding: const EdgeInsets.all(16),
     suffixIconColor: lightColorScheme.onSurface,
-
     errorStyle: const TextStyle(
       fontSize: 0,
     ),
   ),
 
   textTheme: TextTheme(
-    
     // Display Theme
     displayLarge: TextStyle(
       color: lightColorScheme.inversePrimary,
@@ -219,13 +206,12 @@ ThemeData primaryTheme = ThemeData(
 
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(lightColorScheme.primary),
-      foregroundColor: MaterialStatePropertyAll(lightColorScheme.onPrimary),
-      elevation: const MaterialStatePropertyAll(2),
-      padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 6, horizontal: 16))
-    ),
+        backgroundColor: WidgetStatePropertyAll(lightColorScheme.primary),
+        foregroundColor: WidgetStatePropertyAll(lightColorScheme.onPrimary),
+        elevation: const WidgetStatePropertyAll(2),
+        padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(vertical: 6, horizontal: 16))),
   ),
-
 );
 
 ThemeData darkTheme = ThemeData(

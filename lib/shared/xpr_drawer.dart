@@ -49,7 +49,7 @@ class XprDrawer extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Navigator.pushNamed(context, '/custHome');
+                                Navigator.pushNamed(context, '/custHome');
                               },
                               child: Image.asset(
                                 'assets/images/logos/App_Logo.png',

@@ -14,18 +14,17 @@ class StyledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
-        foregroundColor: MaterialStatePropertyAll(lightColorScheme.onSurface)
-      ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-        ),
-        child: child,
-      )
-    );
+        onPressed: onPressed,
+        style: ButtonStyle(
+            backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+            foregroundColor:
+                WidgetStatePropertyAll(lightColorScheme.onSurface)),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(24)),
+          ),
+          child: child,
+        ));
   }
 }

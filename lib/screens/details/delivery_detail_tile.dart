@@ -7,7 +7,7 @@ import 'package:xprapp/theme.dart';
 class DeliveryDetailTile extends StatelessWidget {
   const DeliveryDetailTile({super.key, required this.mode});
 
-  final String mode;        
+  final String mode;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,9 @@ class DeliveryDetailTile extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         height: 250,
         decoration: BoxDecoration(
-          color: lightColorScheme.surface,
-          border: Border.all(color: lightColorScheme.outline),
-          borderRadius: BorderRadius.circular(24)
-        ),
+            color: lightColorScheme.surface,
+            border: Border.all(color: lightColorScheme.outline),
+            borderRadius: BorderRadius.circular(24)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -35,15 +34,16 @@ class DeliveryDetailTile extends StatelessWidget {
                     StyledText('0123456789')
                   ],
                 ),
-                SizedBox(height: 16,),
+                SizedBox(
+                  height: 16,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StyledText('Date /Time'),
-                    StyledText('12/12/12')
-                  ],
+                  children: [StyledText('Date /Time'), StyledText('12/12/12')],
                 ),
-                SizedBox(height: 16,),
+                SizedBox(
+                  height: 16,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,29 +58,46 @@ class DeliveryDetailTile extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    TextButton(onPressed: () {
-                      showDialog(context: context, builder: (context) {
-                        return const XAlert(body: 'Block-A, A1 Co-operative Housing Society, 7, A 1, Apartment, Shivaji Rd, Dahanukar Wadi, Kandivali West, Mumbai, Maharashtra 400067',);
-                      });
-                    },
-                    style: ButtonStyle(padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-                        backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
-                        foregroundColor: MaterialStatePropertyAll(lightColorScheme.primary),
-                        shape: MaterialStatePropertyAll(LinearBorder.bottom(side: BorderSide(color: lightColorScheme.onSurface, width: 2))),
-                        elevation: const MaterialStatePropertyAll(0),
-                    ), 
-                    child: const Text('View Address', style: TextStyle(fontSize: 12),)),
+                    TextButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const XAlert(
+                                  body:
+                                      'Block-A, A1 Co-operative Housing Society, 7, A 1, Apartment, Shivaji Rd, Dahanukar Wadi, Kandivali West, Mumbai, Maharashtra 400067',
+                                );
+                              });
+                        },
+                        style: ButtonStyle(
+                          padding:
+                              const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+                                  EdgeInsets.zero),
+                          backgroundColor:
+                              const WidgetStatePropertyAll(Colors.transparent),
+                          foregroundColor:
+                              WidgetStatePropertyAll(lightColorScheme.primary),
+                          shape: WidgetStatePropertyAll(LinearBorder.bottom(
+                              side: BorderSide(
+                                  color: lightColorScheme.onSurface,
+                                  width: 2))),
+                          elevation: const WidgetStatePropertyAll(0),
+                        ),
+                        child: const Text(
+                          'View Address',
+                          style: TextStyle(fontSize: 12),
+                        )),
                   ],
                 ),
-                mode != 'All' ?
-                  const Icon(Symbols.call_rounded, color: Colors.lightGreen, size: 36, fill: 1)
-                :
-                  const Column(
-                  children: [
-                    StyledText('Status'),
-                    StyledText('Delivered'),
-                  ],
-                )
+                mode != 'All'
+                    ? const Icon(Symbols.call_rounded,
+                        color: Colors.lightGreen, size: 36, fill: 1)
+                    : const Column(
+                        children: [
+                          StyledText('Status'),
+                          StyledText('Delivered'),
+                        ],
+                      )
               ],
             ),
           ],

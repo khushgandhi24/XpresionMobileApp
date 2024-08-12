@@ -71,10 +71,10 @@ class _LogInState extends State<LogIn> {
   void initState() {
     // Auto login if allowed
     getStatus();
-    Future.delayed(const Duration(milliseconds: 500), () {
-      Provider.of<SearchModel>(context, listen: false)
-          .autoLogIn(context, currentStatus);
-    });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    Provider.of<SearchModel>(context, listen: false)
+        .autoLogIn(context, currentStatus);
+    // });
     super.initState();
   }
 
@@ -258,7 +258,7 @@ class _LogInState extends State<LogIn> {
           children: [
             PopScope(
                 canPop: false,
-                onPopInvoked: (didPop) {
+                onPopInvokedWithResult: (didPop, result) {
                   if (didPop) {
                     return;
                   }
@@ -475,11 +475,11 @@ class _LogInState extends State<LogIn> {
                                   TextButton(
                                       style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStatePropertyAll<Color>(
+                                            WidgetStatePropertyAll<Color>(
                                                 Theme.of(context)
                                                     .colorScheme
                                                     .primary),
-                                        padding: const MaterialStatePropertyAll<
+                                        padding: const WidgetStatePropertyAll<
                                                 EdgeInsetsGeometry>(
                                             EdgeInsets.fromLTRB(
                                                 28, 18, 28, 18)),
