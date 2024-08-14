@@ -209,11 +209,17 @@ class _ForgotPassState extends State<ForgotPass> {
                                           'Powered By',
                                           style: TextStyle(fontSize: 12),
                                         ),
-                                        Image.asset(
-                                          'assets/images/logos/Busisoft.png',
-                                          width: 120,
-                                          height: 30,
-                                          fit: BoxFit.cover,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, '/report');
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/logos/Busisoft.png',
+                                            width: 120,
+                                            height: 30,
+                                            fit: BoxFit.cover,
+                                          ),
                                         )
                                       ],
                                     ),

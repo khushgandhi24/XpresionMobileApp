@@ -15,6 +15,7 @@ import 'package:xprapp/screens/drs/drs.dart';
 import 'package:xprapp/screens/home/a.dart';
 import 'package:xprapp/screens/pickup_in_scan/pickup_in_scan.dart';
 import 'package:xprapp/screens/pod_entry/pod_entry.dart';
+import 'package:xprapp/screens/report/report.dart';
 import 'package:xprapp/screens/track/track.dart';
 import 'package:xprapp/services/awb_search_model.dart';
 import 'package:xprapp/theme.dart';
@@ -109,6 +110,7 @@ Future main() async {
         '/reports': (context) => const Reports(),
         '/watchlist': (context) => const WatchList(),
         '/cloud': (context) => const CloudWebView(),
+        '/report': (context) => const Report(),
       },
     ),
   ));
