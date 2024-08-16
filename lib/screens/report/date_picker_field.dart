@@ -27,25 +27,16 @@ class _DatePickerRowState extends State<DatePickerRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Select Date',
-              hintText: _selectedDate == null
-                  ? 'No date chosen'
-                  : _selectedDate!.toLocal().toString().split(' ')[0],
-            ),
-            readOnly: true,
-            onTap: _pickDate,
-          ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.calendar_today),
-          onPressed: _pickDate,
-        ),
-      ],
+    return TextFormField(
+      decoration: InputDecoration(
+        suffixIcon: const Icon(Icons.calendar_today),
+        labelText: 'Select Date',
+        hintText: _selectedDate == null
+            ? 'No date chosen'
+            : _selectedDate!.toLocal().toString().split(' ')[0],
+      ),
+      readOnly: true,
+      onTap: _pickDate,
     );
   }
 }

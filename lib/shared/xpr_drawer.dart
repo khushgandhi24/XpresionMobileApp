@@ -120,14 +120,14 @@ class XprDrawer extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: GridView(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 15,
-                            mainAxisSpacing: 20,
+                            mainAxisSpacing: 15,
                             childAspectRatio: 1,
                           ),
                           shrinkWrap: true,
@@ -204,7 +204,19 @@ class XprDrawer extends StatelessWidget {
                                   MenuTile(
                                       route: '/drs',
                                       icon: Symbols.edit_document_rounded,
-                                      title: 'DRS')
+                                      title: 'DRS'),
+                                  MenuTile(
+                                      route: '/report',
+                                      icon: Symbols.find_in_page_rounded,
+                                      title: 'Reports'),
+                                  MenuTile(
+                                      route: '/report',
+                                      icon: Symbols.find_in_page_rounded,
+                                      title: 'Manifest'),
+                                  // MenuTile(
+                                  //     route: '/report',
+                                  //     icon: Symbols.find_in_page_rounded,
+                                  //     title: 'Manifest\nIn Scan'),
                                 ],
                         ),
                       )
