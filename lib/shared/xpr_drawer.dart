@@ -181,7 +181,7 @@ class XprDrawer extends StatelessWidget {
                                       icon: Symbols.barcode_scanner_rounded,
                                       title: 'Pickup\nIn Scan'),
                                   MenuTile(
-                                    route: '/awb',
+                                    route: '/awbhome',
                                     icon: Symbols.edit_document_rounded,
                                     title: 'AWB\nEntry',
                                   ),

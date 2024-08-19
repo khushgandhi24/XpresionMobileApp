@@ -302,5 +302,3 @@ class SearchModel extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-class PickupModel extends ChangeNotifier {}

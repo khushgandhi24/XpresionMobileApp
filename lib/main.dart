@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:xprapp/screens/auth/forgot_pass.dart';
 import 'package:xprapp/screens/auth/log_in.dart';
 import 'package:xprapp/screens/awb_entry/awb_entry.dart';
+import 'package:xprapp/screens/awb_entry/awb_new.dart';
 import 'package:xprapp/screens/cloud/cloud_webview.dart';
 import 'package:xprapp/screens/details/delivery.dart';
 import 'package:xprapp/screens/details/pickup.dart';
@@ -111,6 +112,7 @@ Future main() async {
         '/watchlist': (context) => const WatchList(),
         '/cloud': (context) => const CloudWebView(),
         '/report': (context) => const Report(),
+        '/awbhome': (context) => const AWBHome(),
       },
     ),
   ));
