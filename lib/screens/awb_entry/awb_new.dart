@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:xprapp/screens/awb_entry/awb_tile.dart';
+import 'package:xprapp/screens/awb_entry/entry_page.dart';
 import 'package:xprapp/screens/report/date_picker_field.dart';
 import 'package:xprapp/shared/awb_search.dart';
 import 'package:xprapp/shared/xpr_drawer.dart';
@@ -28,15 +29,15 @@ class _AWBHomeState extends State<AWBHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              scaffoldKey.currentState!.openDrawer();
-            },
-            icon: Icon(
-              Icons.menu_rounded,
-              color: Theme.of(context).primaryColor,
-              size: 36,
-            )),
+        // leading: IconButton(
+        //     onPressed: () {
+        //       scaffoldKey.currentState!.openDrawer();
+        //     },
+        //     icon: Icon(
+        //       Icons.menu_rounded,
+        //       color: Theme.of(context).primaryColor,
+        //       size: 36,
+        //     )),
         title: Image.asset(
           'assets/images/logos/Xpr_Color.png',
           width: 140,
@@ -46,7 +47,13 @@ class _AWBHomeState extends State<AWBHome> {
       ),
       drawer: const XprDrawer(),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const EntryPage(mode: true)));
+        },
         label: const Text("Add AWB"),
         icon: Icon(
           Symbols.note_add_rounded,
