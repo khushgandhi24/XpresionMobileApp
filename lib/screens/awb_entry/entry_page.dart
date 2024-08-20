@@ -42,7 +42,7 @@ class _EntryPageState extends State<EntryPage> {
         children: [
           (widget.mode)
               ? Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -56,7 +56,7 @@ class _EntryPageState extends State<EntryPage> {
                       const Text(
                         "Add Entry",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       // const SizedBox(
                       //   width: 20,
@@ -78,7 +78,7 @@ class _EntryPageState extends State<EntryPage> {
               : const Text("Edit Entry",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+            padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
             child: Column(
               children: FormField.values.map((FormField field) {
                 return EntryTile(title: field.name, route: field.toString());
