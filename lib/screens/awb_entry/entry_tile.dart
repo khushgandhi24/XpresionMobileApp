@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class EntryTile extends StatefulWidget {
-  const EntryTile({super.key, required this.title, required this.route});
+  const EntryTile(
+      {super.key,
+      required this.title,
+      required this.route,
+      required this.index});
 
   final String title;
   final String route;
+  final int index;
 
   @override
   State<EntryTile> createState() => _EntryTileState();
