@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:xprapp/screens/awb_entry/forms/consignee_details.dart';
+import 'package:xprapp/screens/awb_entry/forms/entry_details.dart';
+import 'package:xprapp/screens/awb_entry/forms/kyc_details.dart';
+import 'package:xprapp/screens/awb_entry/forms/proforma_details.dart';
+import 'package:xprapp/screens/awb_entry/forms/receipt_entry.dart';
+import 'package:xprapp/screens/awb_entry/forms/shipper_details.dart';
+import 'package:xprapp/screens/awb_entry/forms/weight_dimensions.dart';
 
 class EntryTile extends StatefulWidget {
   const EntryTile(
@@ -17,6 +24,26 @@ class EntryTile extends StatefulWidget {
 }
 
 class _EntryTileState extends State<EntryTile> {
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // DateTime? _selectedDate;
+  // TimeOfDay? selectedTime;
+
+  // void _pickDate() async {
+  //   DateTime? pickedDate = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime(2100),
+  //   );
+
+  //   if (pickedDate != null && pickedDate != _selectedDate) {
+  //     setState(() {
+  //       _selectedDate = pickedDate;
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,27 +57,30 @@ class _EntryTileState extends State<EntryTile> {
                 width: 4)),
         contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
         onTap: () {
+          // debugPrint(widget.route);
           // Navigator.pushNamed(context, widget.route);
           showBottomSheet(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               context: context,
+              enableDrag: false,
               shape: ContinuousRectangleBorder(
                   side: BorderSide(
                       color: Theme.of(context).colorScheme.inversePrimary,
                       width: 2)),
               builder: (BuildContext context) {
-                return SizedBox.expand(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Text('Bottom sheet'),
-                        ElevatedButton(
-                          child: const Text('Close'),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
-                    ),
+                return PopScope(
+                  canPop: false,
+                  child: SizedBox.expand(
+                    child: switch (widget.route) {
+                      "FormField.entry" => const EntryDetails(),
+                      "FormField.shipper" => const ShipperDetails(),
+                      "FormField.consignee" => const ConsigneeDetails(),
+                      "FormField.proforma" => const ProformaDetails(),
+                      "FormField.weight" => const WeightDimensions(),
+                      "FormField.kyc" => const KycDetails(),
+                      "FormField.receipt" => const ReceiptEntry(),
+                      _ => const EntryDetails(),
+                    },
                   ),
                 );
               });

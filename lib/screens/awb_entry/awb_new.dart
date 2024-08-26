@@ -80,11 +80,11 @@ class _AWBHomeState extends State<AWBHome> {
               spacing: 5,
               children: SearchFilter.values.map((SearchFilter option) {
                 return ChoiceChip(
+                  checkmarkColor: Colors.white,
                   labelStyle: const TextStyle(color: Colors.white),
                   surfaceTintColor: Colors.transparent,
                   selectedColor: Theme.of(context).colorScheme.primary,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   label: Text(option.name),
                   selected: _selectedValue == option.index,
                   onSelected: (bool selected) {

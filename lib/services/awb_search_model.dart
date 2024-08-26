@@ -301,4 +301,36 @@ class SearchModel extends ChangeNotifier {
     _userLocation = placemarks.first.locality!;
     notifyListeners();
   }
+
+  // Forms
+  // -- Entry Details
+  String _awbEntryNum = "";
+  String get awbEntryNum => _awbEntryNum;
+
+  String _customer = "";
+  String get customer => _customer;
+
+  String _company = "";
+  String get company => _company;
+
+  String _bookDateTime = "";
+  String get bookDateTime => _bookDateTime;
+
+  String _product = "";
+  String get product => _product;
+
+  String _vendor = "";
+  String get vendor => _vendor;
+
+  String _service = "";
+  String get service => _service;
+
+  String _billingType = "";
+  String get billingType => _billingType;
+
+  String _chargesType = "";
+  String get chargesType => _chargesType;
+
+  String _shipmentVal = "";
+  String get shipmentVal => _shipmentVal;
 }
