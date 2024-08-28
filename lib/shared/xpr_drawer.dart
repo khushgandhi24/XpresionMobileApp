@@ -119,109 +119,111 @@ class XprDrawer extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: GridView(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            childAspectRatio: 1,
-                          ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          children: (mode == 'cust')
-                              ? const [
-                                  MenuTile(
-                                      route: '/custAWB',
-                                      icon: Symbols.edit_document_rounded,
-                                      title: 'AWB\nEntry'),
-                                  MenuTile(
-                                    route: '/delivery',
-                                    icon: Symbols.local_shipping_rounded,
-                                    title: 'Delivery',
-                                  ),
-                                  MenuTile(
-                                      route: '/invoice',
-                                      icon: Symbols.receipt_long_rounded,
-                                      title: 'Invoice'),
-                                  MenuTile(
-                                      route: '/reports',
-                                      icon: Symbols.description_rounded,
-                                      title: 'Report'),
-                                  MenuTile(
-                                      route: '/enquiry',
-                                      icon: Symbols.info_rounded,
-                                      title: "Enquiry"),
-                                  MenuTile(
-                                      route: '/feedback',
-                                      icon: Symbols.thumbs_up_down_rounded,
-                                      title: 'Feedback'),
-                                  MenuTile(
-                                      route: '/delivery',
-                                      icon: Symbols.service_toolbox_rounded,
-                                      title: 'Services'),
-                                  MenuTile(
-                                      route: '/delivery',
-                                      icon: Symbols.info_rounded,
-                                      title: 'About Us'),
-                                  MenuTile(
-                                    route: '/profile',
-                                    icon: Symbols.account_circle_filled,
-                                    title: 'Profile',
-                                    fill: 1,
-                                  ),
-                                ]
-                              : const [
-                                  MenuTile(
-                                    route: '/mapHome',
-                                    icon: Symbols.home_filled_rounded,
-                                    title: 'Home',
-                                  ),
-                                  MenuTile(
-                                      route: '/inScan',
-                                      icon: Symbols.barcode_scanner_rounded,
-                                      title: 'Pickup\nIn Scan'),
-                                  MenuTile(
-                                    route: '/awbhome',
-                                    icon: Symbols.edit_document_rounded,
-                                    title: 'AWB\nEntry',
-                                  ),
-                                  MenuTile(
-                                      route: '/pod',
-                                      icon: Symbols.signature_rounded,
-                                      title: 'POD\nEntry'),
-                                  MenuTile(
-                                      route: '/track',
-                                      icon: Symbols.travel_explore_rounded,
-                                      title: 'Tracking'),
-                                  MenuTile(
-                                      route: '/pickup',
-                                      icon: Symbols.pin_drop_rounded,
-                                      title: 'Pickup'),
-                                  MenuTile(
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                          child: GridView(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 1,
+                            ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            children: (mode == 'cust')
+                                ? const [
+                                    MenuTile(
+                                        route: '/custAWB',
+                                        icon: Symbols.edit_document_rounded,
+                                        title: 'AWB\nEntry'),
+                                    MenuTile(
                                       route: '/delivery',
                                       icon: Symbols.local_shipping_rounded,
-                                      title: 'Delivery'),
-                                  MenuTile(
-                                      route: '/drs',
+                                      title: 'Delivery',
+                                    ),
+                                    MenuTile(
+                                        route: '/invoice',
+                                        icon: Symbols.receipt_long_rounded,
+                                        title: 'Invoice'),
+                                    MenuTile(
+                                        route: '/reports',
+                                        icon: Symbols.description_rounded,
+                                        title: 'Report'),
+                                    MenuTile(
+                                        route: '/enquiry',
+                                        icon: Symbols.info_rounded,
+                                        title: "Enquiry"),
+                                    MenuTile(
+                                        route: '/feedback',
+                                        icon: Symbols.thumbs_up_down_rounded,
+                                        title: 'Feedback'),
+                                    MenuTile(
+                                        route: '/delivery',
+                                        icon: Symbols.service_toolbox_rounded,
+                                        title: 'Services'),
+                                    MenuTile(
+                                        route: '/delivery',
+                                        icon: Symbols.info_rounded,
+                                        title: 'About Us'),
+                                    MenuTile(
+                                      route: '/profile',
+                                      icon: Symbols.account_circle_filled,
+                                      title: 'Profile',
+                                      fill: 1,
+                                    ),
+                                  ]
+                                : const [
+                                    MenuTile(
+                                      route: '/mapHome',
+                                      icon: Symbols.home_filled_rounded,
+                                      title: 'Home',
+                                    ),
+                                    MenuTile(
+                                        route: '/inScan',
+                                        icon: Symbols.barcode_scanner_rounded,
+                                        title: 'Pickup\nIn Scan'),
+                                    MenuTile(
+                                      route: '/awbhome',
                                       icon: Symbols.edit_document_rounded,
-                                      title: 'DRS'),
-                                  MenuTile(
-                                      route: '/report',
-                                      icon: Symbols.find_in_page_rounded,
-                                      title: 'Reports'),
-                                  MenuTile(
-                                      route: '/report',
-                                      icon: Symbols.find_in_page_rounded,
-                                      title: 'Manifest'),
-                                  // MenuTile(
-                                  //     route: '/report',
-                                  //     icon: Symbols.find_in_page_rounded,
-                                  //     title: 'Manifest\nIn Scan'),
-                                ],
+                                      title: 'AWB\nEntry',
+                                    ),
+                                    MenuTile(
+                                        route: '/pod',
+                                        icon: Symbols.signature_rounded,
+                                        title: 'POD\nEntry'),
+                                    MenuTile(
+                                        route: '/track',
+                                        icon: Symbols.travel_explore_rounded,
+                                        title: 'Tracking'),
+                                    MenuTile(
+                                        route: '/pickup',
+                                        icon: Symbols.pin_drop_rounded,
+                                        title: 'Pickup'),
+                                    MenuTile(
+                                        route: '/delivery',
+                                        icon: Symbols.local_shipping_rounded,
+                                        title: 'Delivery'),
+                                    MenuTile(
+                                        route: '/drs',
+                                        icon: Symbols.edit_document_rounded,
+                                        title: 'DRS'),
+                                    MenuTile(
+                                        route: '/report',
+                                        icon: Symbols.find_in_page_rounded,
+                                        title: 'Reports'),
+                                    MenuTile(
+                                        route: '/manifest',
+                                        icon: Symbols.lab_profile_rounded,
+                                        title: 'Manifest'),
+                                    MenuTile(
+                                        route: '/minscan',
+                                        icon: Symbols.document_scanner_rounded,
+                                        title: 'Manifest\nIn Scan'),
+                                  ],
+                          ),
                         ),
                       )
                     ],

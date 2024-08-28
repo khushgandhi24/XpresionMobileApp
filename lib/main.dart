@@ -14,6 +14,8 @@ import 'package:xprapp/screens/details/delivery.dart';
 import 'package:xprapp/screens/details/pickup.dart';
 import 'package:xprapp/screens/drs/drs.dart';
 import 'package:xprapp/screens/home/a.dart';
+import 'package:xprapp/screens/manifest/manifest.dart';
+import 'package:xprapp/screens/manifest/manifest_inscan.dart';
 import 'package:xprapp/screens/pickup_in_scan/pickup_in_scan.dart';
 import 'package:xprapp/screens/pod_entry/pod_entry.dart';
 import 'package:xprapp/screens/report/report.dart';
@@ -119,6 +121,8 @@ Future main() async {
         '/enquiry': (context) => const EnquiryForm(),
         '/myorders': (context) => const MyOrders(),
         '/dashboard': (context) => const Dashboard(),
+        '/manifest': (context) => const Manifest(),
+        '/minscan': (context) => const ManifestInscan(),
       },
     ),
   ));
