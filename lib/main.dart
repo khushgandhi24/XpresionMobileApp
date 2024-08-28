@@ -22,6 +22,7 @@ import 'package:xprapp/services/awb_search_model.dart';
 import 'package:xprapp/theme.dart';
 import 'package:xprapp/views/awb/awb_webview.dart';
 import 'package:xprapp/views/c_home.dart';
+import 'package:xprapp/views/enquiry/enquiry.dart';
 import 'package:xprapp/views/feedback/feedback.dart';
 import 'package:xprapp/views/invoice/invoice.dart';
 import 'package:xprapp/views/notifications/notification.dart';
@@ -113,6 +114,7 @@ Future main() async {
         '/cloud': (context) => const CloudWebView(),
         '/report': (context) => const Report(),
         '/awbhome': (context) => const AWBHome(),
+        '/enquiry': (context) => const EnquiryForm(),
       },
     ),
   ));

@@ -152,6 +152,10 @@ class XprDrawer extends StatelessWidget {
                                       icon: Symbols.description_rounded,
                                       title: 'Report'),
                                   MenuTile(
+                                      route: '/enquiry',
+                                      icon: Symbols.info_rounded,
+                                      title: "Enquiry"),
+                                  MenuTile(
                                       route: '/feedback',
                                       icon: Symbols.thumbs_up_down_rounded,
                                       title: 'Feedback'),
