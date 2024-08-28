@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 
 class NavTile extends StatelessWidget {
   const NavTile(
-      {super.key, required this.text, required this.icon, this.active = false});
+      {super.key,
+      required this.text,
+      required this.icon,
+      this.active = false,
+      required this.route});
 
   final String text;
   final IconData icon;
   final bool active;
+  final String route;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => Navigator.pushNamed(context, '/custHome'),
+      onPressed: () => Navigator.pushNamed(context, route),
       style: const ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(Colors.transparent),
       ),
@@ -63,6 +68,7 @@ class NavBar extends StatelessWidget {
               active: (ModalRoute.of(context)!.settings.name == '/custHome')
                   ? true
                   : false,
+              route: '/custHome',
             ),
             const SizedBox(
                 height: 32,
@@ -71,7 +77,14 @@ class NavBar extends StatelessWidget {
                   thickness: 1,
                   color: Colors.black,
                 )),
-            const NavTile(text: 'My Orders', icon: Icons.history_rounded),
+            NavTile(
+              text: 'My Orders',
+              icon: Icons.history_rounded,
+              active: (ModalRoute.of(context)!.settings.name == '/myorders')
+                  ? true
+                  : false,
+              route: '/myorders',
+            ),
             const SizedBox(
                 height: 32,
                 child: VerticalDivider(
@@ -79,7 +92,14 @@ class NavBar extends StatelessWidget {
                   thickness: 1,
                   color: Colors.black,
                 )),
-            const NavTile(text: 'Dashboard', icon: Icons.dashboard_rounded),
+            NavTile(
+              text: 'Dashboard',
+              icon: Icons.dashboard_rounded,
+              active: (ModalRoute.of(context)!.settings.name == '/dashboard')
+                  ? true
+                  : false,
+              route: '/dashboard',
+            ),
           ],
         ),
       ),

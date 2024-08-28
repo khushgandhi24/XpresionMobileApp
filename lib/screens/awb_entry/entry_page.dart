@@ -95,7 +95,7 @@ class _EntryPageState extends State<EntryPage> {
               child: Stepper(
                 controlsBuilder:
                     (BuildContext context, ControlsDetails details) {
-                  return Row(
+                  return const Row(
                     children: <Widget>[
                       // TextButton(
                       //   onPressed: details.onStepContinue,

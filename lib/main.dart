@@ -22,9 +22,11 @@ import 'package:xprapp/services/awb_search_model.dart';
 import 'package:xprapp/theme.dart';
 import 'package:xprapp/views/awb/awb_webview.dart';
 import 'package:xprapp/views/c_home.dart';
+import 'package:xprapp/views/dashboard/dashboard.dart';
 import 'package:xprapp/views/enquiry/enquiry.dart';
 import 'package:xprapp/views/feedback/feedback.dart';
 import 'package:xprapp/views/invoice/invoice.dart';
+import 'package:xprapp/views/my_orders/my_orders.dart';
 import 'package:xprapp/views/notifications/notification.dart';
 import 'package:xprapp/views/profile/profile.dart';
 import 'package:xprapp/views/quote/quote.dart';
@@ -115,6 +117,8 @@ Future main() async {
         '/report': (context) => const Report(),
         '/awbhome': (context) => const AWBHome(),
         '/enquiry': (context) => const EnquiryForm(),
+        '/myorders': (context) => const MyOrders(),
+        '/dashboard': (context) => const Dashboard(),
       },
     ),
   ));

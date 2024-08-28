@@ -82,25 +82,26 @@ class _EnquiryFormState extends State<EnquiryForm> {
                 child: Column(
                   children: [
                     TextFormField(
-                      decoration: InputDecoration(hintText: "Name"),
+                      decoration: const InputDecoration(hintText: "Name"),
                     ),
                     const SizedBox(
                       height: 12,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(hintText: "Email"),
+                      decoration: const InputDecoration(hintText: "Email"),
                     ),
                     const SizedBox(
                       height: 12,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(hintText: "Phone No."),
+                      decoration: const InputDecoration(hintText: "Phone No."),
                     ),
                     const SizedBox(
                       height: 12,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(hintText: "Description"),
+                      decoration:
+                          const InputDecoration(hintText: "Description"),
                       maxLines: 4,
                     ),
                     const SizedBox(
